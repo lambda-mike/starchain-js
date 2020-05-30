@@ -67,9 +67,9 @@ class Blockchain {
           block.time = +new Date()
           block.height = self.chain.length
           if (self.chain.length > 0 && self.height >= 0) {
-            block.previousBlockHash = self.chain[self.height]
+            block.previousBlockHash = self.chain[self.height].hash
           }
-          const hash = SHA256(block).toString()
+          const hash = SHA256(JSON.stringify(block)).toString()
           block.hash = hash
 
           self.chain.push(block)
