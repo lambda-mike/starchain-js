@@ -21,6 +21,7 @@ class Block {
 		this.body = Buffer.from(JSON.stringify(data)).toString('hex');   // Will contain the transactions stored in the block, by default it will encode the data
 		this.time = 0;                                              // Timestamp for the Block creation
 		this.previousBlockHash = null;                              // Reference to the previous Block Hash
+		this.owner = null;                                          // Address of the owner; null for Genesis block
     }
 
     /**
@@ -64,13 +65,16 @@ class Block {
         // Getting the encoded data saved in the Block
         // Decoding the data to retrieve the JSON representation of the object
         // Parse the data to an object to be retrieve.
-        const decoded = JSON.parse(hex2ascii(this.data))
         const self = this
         // Resolve with the data if the object isn't the Genesis block
         return new Promise((resolve, reject) => {
           if (self.previousBlockHash === null) {
             reject('This is a Genesis Block')
           }
+          const json = hex2ascii(self.body)
+          console.log('DGB', self, json)
+          const decoded = JSON.parse(json)
+          console.log('DGB ok', decoded)
           resolve(decoded.data)
         })
     }

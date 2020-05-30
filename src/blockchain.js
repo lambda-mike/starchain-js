@@ -148,6 +148,7 @@ class Blockchain {
           }
           const block =
             new BlockClass.Block({data: star})
+          block.owner = address
           await this._addBlock(block)
           console.log('DBG submit', block)
           resolve(block)
@@ -201,7 +202,14 @@ class Blockchain {
         let self = this;
         let stars = [];
         return new Promise((resolve, reject) => {
-
+          self.chain.forEach(async (b) => {
+            if (b.previousBlockHash && b.owner === address) {
+              const starData = await b.getBData()
+              stars.push(starData)
+            }
+          })
+          console.log('DBG stars', stars)
+          resolve(stars)
         });
     }
 

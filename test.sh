@@ -27,7 +27,7 @@ EOF
 echo
 
 # TEST 4. Retrieve Stars owned by me
-curl -s -X GET localhost:8000/blocks/2N5QNPC8nEWDwue4XLJvqzrtwwUAboBrN64
+curl -s -X GET localhost:8000/blocks/1DJhoaeJvEfPoT3AzUQNYHj5BFFycrLENW
 echo
 
 # TEST 5. Get block by hash
