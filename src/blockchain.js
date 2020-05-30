@@ -88,7 +88,13 @@ class Blockchain {
      */
     requestMessageOwnershipVerification(address) {
         return new Promise((resolve) => {
-
+          if (!address) {
+            reject(Error('Wallet address is requiered'))
+          }
+          const msg =
+            `${address}:${new Date().getTime().toString().slice(0,-3)}:starRegistry`
+          console.log('DBG msg', msg)
+          resolve(msg)
         });
     }
 
