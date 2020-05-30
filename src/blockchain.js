@@ -118,7 +118,39 @@ class Blockchain {
     submitStar(address, message, signature, star) {
         let self = this;
         return new Promise(async (resolve, reject) => {
-
+          if (!address) {
+            reject(Error("Address is required"))
+          }
+          if (!message) {
+            reject(Error("Message is required"))
+          }
+          if (!signature) {
+            reject(Error("Signature is required"))
+          }
+          if (!star) {
+            reject(Error("Star data is required"))
+          }
+          const ts =
+            parseInt(message.split(':')[1])
+          const currentTs =
+            parseInt(new Date().getTime().toString().slice(0, -3))
+          if (currentTs - ts < 0) {
+            reject(Error("Message could not be generated in the future!"))
+          }
+          const fiveMin = 5 * 60
+          if (currentTs - ts >= fiveMin) {
+            reject(Error("Message should be less than 5 min old"))
+          }
+          const isMsgVaild =
+            bitcoinMessage.verify(message, address, signature)
+          if (!isMsgVaild) {
+            reject(Error("Wrong signature!"))
+          }
+          const block =
+            new BlockClass.Block({data: star})
+          await this._addBlock(block)
+          console.log('DBG submit', block)
+          resolve(block)
         });
     }
 
