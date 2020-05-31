@@ -42,13 +42,16 @@ class Block {
             // Save in auxiliary variable the current block hash
             const originalHash = self.hash
             // Recalculate the hash of the Block
-            self.hash = '' // Reset hash to calculate a hash of the block
-            const calculatedHash = SHA256(self).toString()
-            console.log('DBG hash', calculatedHash)
+            const block = { ...self }
+            block.hash = null // Reset hash to calculate a hash of the block
+            const calculatedHash = SHA256(JSON.stringify(block)).toString()
+            console.log('DBG hash', self, originalHash, block, calculatedHash)
             // Comparing if the hashes changed
             // Returning the Block is not valid
             // Returning the Block is valid
-            resolve(calculatedHash === originalHash)
+            const result = calculatedHash === originalHash
+            console.log('result in validate', result)
+            return resolve(result)
         });
     }
 

@@ -220,11 +220,38 @@ class Blockchain {
      * 2. Each Block should check the with the previousBlockHash
      */
     validateChain() {
-        let self = this;
-        let errorLog = [];
-        return new Promise(async (resolve, reject) => {
-
-        });
+      let self = this;
+      let errorLog = [];
+      return new Promise(async (resolve, reject) => {
+        console.log('dgb', self)
+        for (let i = 0; i < self.chain.length; i++) {
+          let b = self.chain[i]
+          console.log('dgb b i ', b, i)
+          let hashCheck = await b.validate()
+          console.log('after validate', hashCheck)
+          if (!hashCheck) {
+            const msg =
+              `Invalid hash for block height: ${i} (${b.hash})`
+            console.log('msg1 ', msg)
+            errorLog.push(msg)
+          }
+          console.log('artastats', i, typeof i)
+          const prevBlockCheck =
+            i === 0 || b.previousBlockHash === self.chain[i-1].hash
+          console.log('prev', prevBlockCheck)
+          if (!prevBlockCheck) {
+            console.log('mesg msg last check')
+            const msg =
+              `Chain is broken between blocks \
+                (${i-1}: ${self.chain[i-1].hash}) and \
+                (${i}: ${b.previousBlockHash})`
+            console.log('msg ', msg)
+            errorLog.push(msg)
+          }
+        }
+        console.log('reolve ', errorLog)
+        return resolve(errorLog)
+      })
     }
 
 }

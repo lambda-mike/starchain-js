@@ -15,6 +15,7 @@ class BlockchainController {
         this.getBlockByHeight();
         this.requestOwnership();
         this.submitStar();
+        this.validateBlockchain()
         this.getBlockByHash();
         this.getStarsByOwner();
     }
@@ -80,6 +81,25 @@ class BlockchainController {
         });
     }
 
+    // This endpoint allows you to validate whole blockchain
+    validateBlockchain() {
+      this.app.get("/validate", async (req, res) => {
+        try {
+          const validationErrors = await this.blockchain.validateChain()
+          console.log('after validate', validationErrors)
+          if(validationErrors.length === 0){
+            return res.status(200)
+                      .json({ valid: true, errorLog: validationErrors })
+          } else {
+            return res.status(200)
+                      .json({ valid: false, errorLog: validationErrors })
+          }
+        } catch (error) {
+          return res.status(500).send("An error happened! " + error);
+        }
+      })
+    }
+
     // This endpoint allows you to retrieve the block by hash (GET endpoint)
     getBlockByHash() {
         this.app.get("/block/hash/:hash", async (req, res) => {
@@ -117,7 +137,6 @@ class BlockchainController {
             } else {
                 return res.status(500).send("Block Not Found! Review the Parameters!");
             }
-
         });
     }
 

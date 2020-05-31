@@ -13,13 +13,13 @@ echo
 
 # TEST 3. Submit your Star
 curl -s -X POST -H 'Content-Type: application/json' localhost:8000/submitstar -d @- <<\EOF
-{ "address": "1DJhoaeJvEfPoT3AzUQNYHj5BFFycrLENW",
-  "signature": "IPcWVLdDGIrX0nwdlF0YqSsJajfkTCKQsw9aZ0x1lgJodBD8kS9x6OnJXR7zRj/cTUdv2aIG7L372tap3zkn6lM=",
-  "message": "1DJhoaeJvEfPoT3AzUQNYHj5BFFycrLENW:1590846424:starRegistry",
+{ "address": "12zvAA4SJnNniygUJsRR8xn655QZRPa2NU",
+  "signature": "H66tKdEuG77kEFNjalAr+JxIiSVfw0zLIh7TEoDV2yftb/kUb3RzUS+M+Z4q3XGJaxg7JyR69v9TlLz7JLK3GiI=",
+  "message": "12zvAA4SJnNniygUJsRR8xn655QZRPa2NU:1590915867:starRegistry",
   "star": {
     "dec": "68° 52' 56.9",
     "ra": "16h 29m 1.0s",
-    "story": "Testing the story 4"
+    "story": "Testing the story 5"
   }
 }
 EOF
