@@ -167,7 +167,7 @@ class Blockchain {
           const blocks =
             self.chain.filter(b => b.hash === hash)
           if (blocks.length <= 0) {
-            console.warning(`Block (${hash}) not found`)
+            console.warn(`Block (${hash}) not found`)
             resolve(null)
           }
           resolve(blocks[0])
