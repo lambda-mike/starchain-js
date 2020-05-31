@@ -64,17 +64,23 @@ class Blockchain {
     _addBlock(block) {
         let self = this;
         return new Promise(async (resolve, reject) => {
-          block.time = +new Date()
-          block.height = self.chain.length
-          if (self.chain.length > 0 && self.height >= 0) {
-            block.previousBlockHash = self.chain[self.height].hash
-          }
-          const hash = SHA256(JSON.stringify(block)).toString()
-          block.hash = hash
+          try {
+            block.time = +new Date()
+            block.height = self.chain.length
+            if (self.chain.length > 0 && self.height >= 0) {
+              block.previousBlockHash = self.chain[self.height].hash
+            }
+            const hash = SHA256(JSON.stringify(block)).toString()
+            block.hash = hash
 
-          self.chain.push(block)
-          self.height += 1
-          resolve()
+            self.chain.push(block)
+            self.height += 1
+            resolve(block)
+          }
+          catch (err) {
+            reject(Error('Error occurred when adding block: ' +
+              JSON.stringify(block)))
+          }
         });
     }
 
@@ -130,15 +136,15 @@ class Blockchain {
           if (!star) {
             reject(Error("Star data is required"))
           }
-          const ts =
+          const msgTs =
             parseInt(message.split(':')[1])
           const currentTs =
             parseInt(new Date().getTime().toString().slice(0, -3))
-          if (currentTs - ts < 0) {
+          if (currentTs - msgTs < 0) {
             reject(Error("Message could not be generated in the future!"))
           }
           const fiveMin = 5 * 60
-          if (currentTs - ts >= fiveMin) {
+          if (currentTs - msgTs >= fiveMin) {
             reject(Error("Message should be less than 5 min old"))
           }
           const isMsgVaild =
@@ -149,9 +155,9 @@ class Blockchain {
           const block =
             new BlockClass.Block({data: star})
           block.owner = address
-          await this._addBlock(block)
-          console.log('DBG submit', block)
-          resolve(block)
+          const result = await this._addBlock(block)
+          console.log('DBG submit', block, result)
+          resolve(result)
         });
     }
 
