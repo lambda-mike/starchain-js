@@ -91,8 +91,8 @@ class Blockchain {
           if (!address) {
             reject(Error('Wallet address is requiered'))
           }
-          const msg =
-            `${address}:${new Date().getTime().toString().slice(0,-3)}:starRegistry`
+          const ts = new Date().getTime().toString().slice(0,-3)
+          const msg = `${address}:${ts}:starRegistry`
           console.log('DBG msg', msg)
           resolve(msg)
         });
