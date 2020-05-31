@@ -244,7 +244,7 @@ class Blockchain {
             const msg =
               `Chain is broken between blocks \
                 (${i-1}: ${self.chain[i-1].hash}) and \
-                (${i}: ${b.previousBlockHash})`
+                (${i}: ${b.hash})`
             console.log('msg ', msg)
             errorLog.push(msg)
           }

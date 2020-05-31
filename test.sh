@@ -14,8 +14,8 @@ echo
 # TEST 3. Submit your Star
 curl -s -X POST -H 'Content-Type: application/json' localhost:8000/submitstar -d @- <<\EOF
 { "address": "12zvAA4SJnNniygUJsRR8xn655QZRPa2NU",
-  "signature": "H66tKdEuG77kEFNjalAr+JxIiSVfw0zLIh7TEoDV2yftb/kUb3RzUS+M+Z4q3XGJaxg7JyR69v9TlLz7JLK3GiI=",
-  "message": "12zvAA4SJnNniygUJsRR8xn655QZRPa2NU:1590915867:starRegistry",
+  "signature": "H3caD/G2aizmkDo9ac55WkFwKKm91gmOmd5nR367hMh1DyekVhaaI6hVHhE+sMV1qDHtu5DJyglLnWYdlGh3mA8=",
+  "message": "12zvAA4SJnNniygUJsRR8xn655QZRPa2NU:1590916790:starRegistry",
   "star": {
     "dec": "68° 52' 56.9",
     "ra": "16h 29m 1.0s",
