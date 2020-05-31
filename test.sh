@@ -4,7 +4,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # TEST 1. request the Genesis block
-curl -s "localhost:8000/block/0"
+curl -s "localhost:8000/block/0" | jq
 echo
 
 # TEST 2. Make request of ownership
@@ -27,9 +27,9 @@ EOF
 echo
 
 # TEST 4. Retrieve Stars owned by me
-curl -s -X GET localhost:8000/blocks/1DJhoaeJvEfPoT3AzUQNYHj5BFFycrLENW
+curl -s -X GET localhost:8000/blocks/1DJhoaeJvEfPoT3AzUQNYHj5BFFycrLENW | jq
 echo
 
 # TEST 5. Get block by hash
-curl -s "localhost:8000/block/hash/b06ad471a19ef484b8d26fc4bc9255aca274239e8395a188d8acfed1f97d0206"
+curl -s "localhost:8000/block/hash/b06ad471a19ef484b8d26fc4bc9255aca274239e8395a188d8acfed1f97d0206" | jq
 echo
