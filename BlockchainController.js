@@ -34,14 +34,12 @@ class BlockchainController {
             } else {
                 return res.status(404).send("Block Not Found! Review the Parameters!");
             }
-
         });
     }
 
     // Endpoint that allows user to request Ownership of a Wallet address (POST Endpoint)
     requestOwnership() {
         this.app.post("/requestValidation", async (req, res) => {
-            console.log('DBG req val', req.headers, req.body)
             if(req.body.address) {
                 const address = req.body.address;
                 const message = await this.blockchain.requestMessageOwnershipVerification(address);
@@ -65,7 +63,6 @@ class BlockchainController {
                 const signature = req.body.signature;
                 const star = req.body.star;
                 try {
-                    console.log('req', address, message, signature, star)
                     let block =
                           await this.blockchain.submitStar(
                             address, message, signature, star);
@@ -75,7 +72,6 @@ class BlockchainController {
                         return res.status(500).send("An error happened!");
                     }
                 } catch (error) {
-                    console.error(error)
                     return res.status(500).send(error && error.message ||
                       `Unknown error: ${error}`);
                 }
@@ -90,7 +86,6 @@ class BlockchainController {
       this.app.get("/validate", async (req, res) => {
         try {
           const validationErrors = await this.blockchain.validateChain()
-          console.log('after validate', validationErrors)
           if(validationErrors.length === 0){
             return res.status(200)
                       .json({ valid: true, errorLog: validationErrors })
@@ -118,7 +113,6 @@ class BlockchainController {
             } else {
                 return res.status(404).send("Block Not Found! Review the Parameters!");
             }
-
         });
     }
 
@@ -128,7 +122,6 @@ class BlockchainController {
             if(req.params.address) {
                 const address = req.params.address;
                 try {
-                    console.log('req stars by owner', req.params)
                     let stars = await this.blockchain.getStarsByWalletAddress(address);
                     if(stars){
                         return res.status(200).json(stars);
