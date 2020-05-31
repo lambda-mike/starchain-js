@@ -99,7 +99,6 @@ class Blockchain {
           }
           const ts = new Date().getTime().toString().slice(0,-3)
           const msg = `${address}:${ts}:starRegistry`
-          console.log('DBG msg', msg)
           resolve(msg)
         });
     }
@@ -156,7 +155,6 @@ class Blockchain {
             new BlockClass.Block({data: star})
           block.owner = address
           const result = await this._addBlock(block)
-          console.log('DBG submit', block, result)
           resolve(result)
         });
     }
@@ -173,7 +171,6 @@ class Blockchain {
           const blocks =
             self.chain.filter(b => b.hash === hash)
           if (blocks.length <= 0) {
-            console.warn(`Block (${hash}) not found`)
             resolve(null)
           }
           resolve(blocks[0])
@@ -188,7 +185,6 @@ class Blockchain {
     getBlockByHeight(height) {
         let self = this;
         return new Promise((resolve, reject) => {
-            console.log('DBG', self.chain)
             let block = self.chain.filter(p => p.height === height)[0];
             if(block){
                 resolve(block);
@@ -214,7 +210,6 @@ class Blockchain {
               stars.push(starData)
             }
           })
-          console.log('DBG stars', stars)
           resolve(stars)
         });
     }
@@ -229,33 +224,24 @@ class Blockchain {
       let self = this;
       let errorLog = [];
       return new Promise(async (resolve, reject) => {
-        console.log('dgb', self)
         for (let i = 0; i < self.chain.length; i++) {
           let b = self.chain[i]
-          console.log('dgb b i ', b, i)
           let hashCheck = await b.validate()
-          console.log('after validate', hashCheck)
           if (!hashCheck) {
             const msg =
               `Invalid hash for block height: ${i} (${b.hash})`
-            console.log('msg1 ', msg)
             errorLog.push(msg)
           }
-          console.log('artastats', i, typeof i)
           const prevBlockCheck =
             i === 0 || b.previousBlockHash === self.chain[i-1].hash
-          console.log('prev', prevBlockCheck)
           if (!prevBlockCheck) {
-            console.log('mesg msg last check')
             const msg =
               `Chain is broken between blocks \
                 (${i-1}: ${self.chain[i-1].hash}) and \
                 (${i}: ${b.hash})`
-            console.log('msg ', msg)
             errorLog.push(msg)
           }
         }
-        console.log('reolve ', errorLog)
         return resolve(errorLog)
       })
     }
