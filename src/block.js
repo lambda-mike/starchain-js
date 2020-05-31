@@ -45,7 +45,6 @@ class Block {
             const block = { ...self }
             block.hash = null // Reset hash to calculate a hash of the block
             const calculatedHash = SHA256(JSON.stringify(block)).toString()
-            console.log('DBG hash', self, originalHash, block, calculatedHash)
             // Comparing if the hashes changed
             // Returning the Block is not valid
             // Returning the Block is valid
@@ -73,9 +72,7 @@ class Block {
             reject('This is a Genesis Block')
           }
           const json = hex2ascii(self.body)
-          console.log('DGB', self, json)
           const decoded = JSON.parse(json)
-          console.log('DGB ok', decoded)
           resolve(decoded.data)
         })
     }
