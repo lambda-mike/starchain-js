@@ -137,11 +137,12 @@ class Blockchain {
             parseInt(message.split(':')[1])
           const currentTs =
             parseInt(new Date().getTime().toString().slice(0, -3))
-          if (currentTs - msgTs < 0) {
+          const duration = currentTs - msgTs
+          if (duration < 0) {
             reject(Error("Message could not be generated in the future!"))
           }
           const fiveMin = 5 * 60
-          if (currentTs - msgTs >= fiveMin) {
+          if (duration >= fiveMin) {
             reject(Error("Message should be less than 5 min old"))
           }
           const isMsgVaild =
@@ -150,8 +151,7 @@ class Blockchain {
             reject(Error("Wrong signature!"))
           }
           const block =
-            new BlockClass.Block({data: star})
-          block.owner = address
+            new BlockClass.Block({data: star}, address)
           const result = await this._addBlock(block)
           resolve(result)
         });
