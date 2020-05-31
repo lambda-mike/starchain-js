@@ -49,9 +49,7 @@ class Block {
             // Comparing if the hashes changed
             // Returning the Block is not valid
             // Returning the Block is valid
-            const result = calculatedHash === originalHash
-            console.log('result in validate', result)
-            return resolve(result)
+            return resolve(calculatedHash === originalHash)
         });
     }
 
