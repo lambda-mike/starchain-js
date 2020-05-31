@@ -87,8 +87,13 @@ class BlockchainController {
         try {
           const validationErrors = await this.blockchain.validateChain()
           console.log('after validate', validationErrors)
-          return res.status(200)
-                    .json(validationErrors)
+          if(validationErrors.length === 0){
+            return res.status(200)
+                      .json({ valid: true, errorLog: validationErrors })
+          } else {
+            return res.status(200)
+                      .json({ valid: false, errorLog: validationErrors })
+          }
         } catch (error) {
           return res.status(500).send("An error happened! " + error);
         }
